@@ -155,6 +155,42 @@ ALTER SEQUENCE public.planet_planet_id_seq OWNED BY public.planet.planet_id;
 
 
 --
+-- Name: spacesheep; Type: TABLE; Schema: public; Owner: freecodecamp
+--
+
+CREATE TABLE public.spacesheep (
+    spacesheep_id integer NOT NULL,
+    name character varying(50) NOT NULL,
+    star_id integer,
+    planet_id integer
+);
+
+
+ALTER TABLE public.spacesheep OWNER TO freecodecamp;
+
+--
+-- Name: spacesheep_spacesheep_id_seq; Type: SEQUENCE; Schema: public; Owner: freecodecamp
+--
+
+CREATE SEQUENCE public.spacesheep_spacesheep_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.spacesheep_spacesheep_id_seq OWNER TO freecodecamp;
+
+--
+-- Name: spacesheep_spacesheep_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: freecodecamp
+--
+
+ALTER SEQUENCE public.spacesheep_spacesheep_id_seq OWNED BY public.spacesheep.spacesheep_id;
+
+
+--
 -- Name: star; Type: TABLE; Schema: public; Owner: freecodecamp
 --
 
@@ -210,6 +246,13 @@ ALTER TABLE ONLY public.moon ALTER COLUMN moon_id SET DEFAULT nextval('public.mo
 --
 
 ALTER TABLE ONLY public.planet ALTER COLUMN planet_id SET DEFAULT nextval('public.planet_planet_id_seq'::regclass);
+
+
+--
+-- Name: spacesheep spacesheep_id; Type: DEFAULT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.spacesheep ALTER COLUMN spacesheep_id SET DEFAULT nextval('public.spacesheep_spacesheep_id_seq'::regclass);
 
 
 --
@@ -276,6 +319,17 @@ INSERT INTO public.planet VALUES (12, 'Whirlpool Planet E', 0.0005000000, NULL, 
 
 
 --
+-- Data for Name: spacesheep; Type: TABLE DATA; Schema: public; Owner: freecodecamp
+--
+
+INSERT INTO public.spacesheep VALUES (1, 'Nova Voyager', 1, 1);
+INSERT INTO public.spacesheep VALUES (2, 'Stellar Seeker', 2, 2);
+INSERT INTO public.spacesheep VALUES (3, 'Cosmic Explorer', 3, 3);
+INSERT INTO public.spacesheep VALUES (4, 'Galactic Surveyor', 5, 4);
+INSERT INTO public.spacesheep VALUES (5, 'Celestial Investigator', 6, 5);
+
+
+--
 -- Data for Name: star; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
@@ -309,6 +363,13 @@ SELECT pg_catalog.setval('public.moon_moon_id_seq', 60, true);
 --
 
 SELECT pg_catalog.setval('public.planet_planet_id_seq', 12, true);
+
+
+--
+-- Name: spacesheep_spacesheep_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
+--
+
+SELECT pg_catalog.setval('public.spacesheep_spacesheep_id_seq', 5, true);
 
 
 --
@@ -359,6 +420,22 @@ ALTER TABLE ONLY public.planet
 
 
 --
+-- Name: spacesheep spacesheep_pkey; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.spacesheep
+    ADD CONSTRAINT spacesheep_pkey PRIMARY KEY (spacesheep_id);
+
+
+--
+-- Name: spacesheep spacesheep_spacesheep_name_key; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.spacesheep
+    ADD CONSTRAINT spacesheep_spacesheep_name_key UNIQUE (name);
+
+
+--
 -- Name: star star_name_key; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
 --
 
@@ -375,11 +452,51 @@ ALTER TABLE ONLY public.star
 
 
 --
+-- Name: galaxy unique_galaxy_id; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.galaxy
+    ADD CONSTRAINT unique_galaxy_id UNIQUE (galaxy_id);
+
+
+--
+-- Name: moon unique_moon_id; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.moon
+    ADD CONSTRAINT unique_moon_id UNIQUE (moon_id);
+
+
+--
 -- Name: galaxy unique_name; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
 --
 
 ALTER TABLE ONLY public.galaxy
     ADD CONSTRAINT unique_name UNIQUE (name);
+
+
+--
+-- Name: planet unique_planet_id; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.planet
+    ADD CONSTRAINT unique_planet_id UNIQUE (planet_id);
+
+
+--
+-- Name: spacesheep unique_spacesheep_id; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.spacesheep
+    ADD CONSTRAINT unique_spacesheep_id UNIQUE (spacesheep_id);
+
+
+--
+-- Name: star unique_star_id; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.star
+    ADD CONSTRAINT unique_star_id UNIQUE (star_id);
 
 
 --
@@ -396,6 +513,22 @@ ALTER TABLE ONLY public.moon
 
 ALTER TABLE ONLY public.planet
     ADD CONSTRAINT planet_star_id_fkey FOREIGN KEY (star_id) REFERENCES public.star(star_id);
+
+
+--
+-- Name: spacesheep spacesheep_planet_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.spacesheep
+    ADD CONSTRAINT spacesheep_planet_id_fkey FOREIGN KEY (planet_id) REFERENCES public.planet(planet_id);
+
+
+--
+-- Name: spacesheep spacesheep_star_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.spacesheep
+    ADD CONSTRAINT spacesheep_star_id_fkey FOREIGN KEY (star_id) REFERENCES public.star(star_id);
 
 
 --
