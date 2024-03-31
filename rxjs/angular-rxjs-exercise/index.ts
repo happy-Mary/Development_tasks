@@ -1,13 +1,12 @@
 // https://stackblitz.com/edit/angular-rxjs-exercise-solution?file=index.ts
 
-import { combineLatest, merge, race, interval, concat } from 'rxjs';
+import { combineLatest, merge, race, interval, concat, zip, timer } from 'rxjs';
 import {
 	filter,
 	distinct,
 	skipUntil,
 	map,
 	first,
-	// average,
 	distinctUntilChanged,
 	skip,
 	take,
@@ -16,6 +15,7 @@ import {
 	debounceTime,
 	mergeMap,
   startWith,
+  takeUntil,
 } from 'rxjs/operators';
 
 import { Car } from './types/car.type';
@@ -79,7 +79,7 @@ merge(cars$, trucks$)
 //* #7 ---
 //* step 1: merge all cars with all trucks (don't use the 'combineLatest' operator)
 //* step 2: make sure that the trucks output before the cars
-// concat(cars$, trucks$) // !this could be used only if cars$.complete()
+// concat(cars$, trucks$) // !concat could be used only if cars$.complete()
 merge(
   cars$.pipe(delay(1000)),
   trucks$
@@ -88,22 +88,36 @@ merge(
 
 //* #8 ---
 //* step 1: only get the cars by make Ford and Volvo
-//* step 2: merge the trucks into the cars stream and make sure only the trucks of the same brand as the cars will be in the stream output (HINT: take a look at mergeMap and switchMap, only the trucks should be returned)
+//* step 2: merge the trucks into the cars stream and make sure only the trucks of the same brand as the cars will be in the stream output 
+//* (HINT: take a look at mergeMap and switchMap, only the trucks should be returned)
 cars$.pipe(
   filter(car => car.make === 'Ford' || car.make === 'Volvo'),
   mergeMap(car => trucks$.pipe(filter(truck => truck.make === car.make)))
 )
-.subscribe(car => console.log(car));
+// .subscribe(car => console.log(car));
 
 //* #9 ---
-//* step 1: only emit the results of whoever emits first, if cars$ emits first then the trucks$ should be ignored completely
+//* step 1: only emit the results of whoever emits first, 
+//* if cars$ emits first then the trucks$ should be ignored completely
+race(cars$, trucks$)
+// .subscribe((vechicle: Car | Truck) => console.log(vechicle));
 
 //* #10 ---
 //* step 1: the first value of cars$ should be combined with the first value of trucks$
 //* cars$ = [1,2,3,4,5]; trucks$ = ['a', 'b', 'c']; result = [ [1,'a'], [2,'b'], [3,'c'] ]
+zip(cars$, trucks$)
+// .subscribe((vechicles: [Car, Truck]) => console.log(vechicles))
 
 //* #11 ---
 //* step 1: log something every 2000ms (the value can be a static value)
+const interval$ = interval(1000);
+const timer$ = timer(5000);
+interval$.pipe(
+  takeUntil(timer$)
+)
+// .subscribe(() => console.log('interval value'));
+
+// timer$.subscribe(() => console.log('interval value completed by timer'))
 
 runDataStream();
 
