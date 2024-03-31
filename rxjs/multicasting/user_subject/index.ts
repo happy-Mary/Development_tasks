@@ -1,3 +1,6 @@
+// TODO: proceed advanced rxjs
+// https://liveloveapp.com/courses/advanced-rxjs
+
 import { Subject } from "rxjs";
 import { ajax } from "rxjs/ajax";
 import { map } from "rxjs/operators";
