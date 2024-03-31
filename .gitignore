@@ -2,6 +2,7 @@
 build/
 dist/
 *.log
+.cache
 
 # Ignore node_modules directory
 node_modules/
