@@ -1,5 +1,10 @@
-.basic-container {
-  padding: 10px;
+.items-list {
+  max-width: 300px;
+  margin: 10px;
 }
 
- 
+.item-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

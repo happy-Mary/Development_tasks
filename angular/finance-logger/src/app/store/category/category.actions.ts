@@ -13,6 +13,10 @@ export const categoryActions = createActionGroup({
     'Delete Category': props<{ name: string }>(),
     'Update Category': props<{ category: Category }>(),
     'Delete All Categories': emptyProps(),
+    // 'Store Categories': props<{ payload: Category[] }>(),
+    'Categories List Loaded': emptyProps(),
+    'Categories List Success': props<{ payload: Category[] }>(),
+    'Categories List Error': emptyProps(),
   },
 });
 

@@ -1,7 +1,12 @@
-<mat-list>
+<mat-list class="items-list">
   <mat-list-item *ngFor="let category of categories">
-    {{ category.name }}
-    <button mat-button (click)="deleteCategory(category)"><mat-icon>delete</mat-icon></button>
+    <!-- TODO: add Angular Flex Layout -->
+    <div class="item-content">
+      <span>{{ category.name || "&lt;Empty Name&gt;" }}</span>
+      <button mat-button (click)="deleteCategory(category)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
   </mat-list-item>
 </mat-list>
 <mat-form-field>

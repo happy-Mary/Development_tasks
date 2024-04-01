@@ -18,6 +18,10 @@ export const categoryReducer: ActionReducer<CategoryState> = createReducer(
   on(categoryActions.deleteAllCategories, (state): CategoryState => ({
     ...state,
     list: [],
+  })),
+  on(categoryActions.categoriesListSuccess, (state, { payload }) => ({
+    ...state,
+    list: [...payload],
   }))
 );
 // TODO: ???
