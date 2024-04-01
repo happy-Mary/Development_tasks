@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
-import { Store } from "@ngrx/store";
-import { categories } from "../../state/selectors";
-import { CategoryListPresenterComponent } from '../category-list-presenter/category-list-presenter.component';
 import { CommonModule } from '@angular/common';
-import { AppState } from 'src/app/state';
+import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Category } from 'src/app/models/category';
+import { CategoryState } from 'src/app/store/category';
+import { selectCategories } from '../../store/category/category.selectors';
+import { CategoryListPresenterComponent } from '../category-list-presenter/category-list-presenter.component';
 
 @Component({
   selector: 'app-category-list-container',
@@ -15,11 +15,9 @@ import { Category } from 'src/app/models/category';
   standalone: true,
 })
 export class CategoryListContainerComponent {
-  // categories$: Observable<Category[]> = this.store.select(state => state.categories);
-  
-  categories$: Observable<any> = this.store.select(categories);
+  categories$: Observable<Category[]> = this.store.select(selectCategories);
 
-  constructor(private readonly store: Store<{ categories: AppState }>) {
-    this.categories$.subscribe(val => console.log(val));
+  constructor(private readonly store: Store<{ categories: CategoryState }>) {
+    this.categories$.subscribe((val) => console.log(val));
   }
 }

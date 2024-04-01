@@ -1,5 +1,10 @@
-import { createAction, props, emptyProps, createActionGroup } from "@ngrx/store";
-import { Category } from "../models/category";
+import {
+  createAction,
+  createActionGroup,
+  emptyProps,
+  props,
+} from '@ngrx/store';
+import { Category } from '../../models/category';
 
 export const categoryActions = createActionGroup({
   source: 'Category List',
@@ -8,7 +13,7 @@ export const categoryActions = createActionGroup({
     'Delete Category': props<{ name: string }>(),
     'Update Category': props<{ category: Category }>(),
     'Delete All Categories': emptyProps(),
-  }
+  },
 });
 
 //* creating by single action [createAction] (EXAMPLE)

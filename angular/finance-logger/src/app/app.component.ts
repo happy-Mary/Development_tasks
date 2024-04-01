@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { categoryActions } from './state/actions';
-import { Category } from './models/category';
 import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-
+import { Category } from './models/category';
+import { categoryActions } from './store/category/category.actions';
 
 @Component({
   selector: 'app-root',
