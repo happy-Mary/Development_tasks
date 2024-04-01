@@ -5,6 +5,6 @@ export interface CategoryState {
 }
 
 export const initialState: CategoryState = {
-  list: [{ name: 'Example Category' }],
+  list: [],
 };
 

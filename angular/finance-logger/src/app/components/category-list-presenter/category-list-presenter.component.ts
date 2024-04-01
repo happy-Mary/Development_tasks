@@ -29,10 +29,23 @@ export class CategoryListPresenterComponent {
   newCategoryName = '';
 
   addCategory() {
-    this.categoryAdded.emit({ name: this.newCategoryName });
+    const id = this.generateCategoryId();
+    const name = this.newCategoryName;
+    this.newCategoryName = '';
+    this.categoryAdded.emit({ name, id });
   }
 
   deleteCategory(category: Category) {
     this.categoryDeleted.emit(category);
+  }
+
+  private generateCategoryId(): string {
+    const id = String(Date.now());
+    // const id = Math.floor(Math.random() * 100); // 0-99
+    while(this.categories.some(cat => cat.id === id)) {
+      return this.generateCategoryId();
+    }
+
+    return id;
   }
 }

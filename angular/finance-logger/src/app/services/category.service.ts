@@ -22,7 +22,7 @@ export class CategoryService {
     return this.http.post<Category>(this.baseUrl, category);
   }
 
-  deleteCategory(id: number) {
+  deleteCategory(id: string) {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 }

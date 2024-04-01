@@ -14,13 +14,7 @@ import { categoryActions } from './store/category/category.actions';
 export class AppComponent implements OnInit {
   title = 'Finance Logger with NgRX';
 
-  ngOnInit(): void {
-    const newCategory: Category = { name: 'Food' };
-  }
-
-  deleteCategory(category: Category) {
-    categoryActions.deleteCategory({ name: category.name });
-  }
+  ngOnInit(): void {}
 
   updateCategory(category: Category) {
     categoryActions.updateCategory({ category });

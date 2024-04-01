@@ -1,42 +1,46 @@
 {
   "categories": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Food"
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Electricity bills"
     },
     {
-      "id": 1,
+      "id": "1",
       "name": "Car repair"
     },
     {
-      "id": 3
+      "id": "3"
     },
     {
       "name": "dfvdfvdfv",
-      "id": 4
+      "id": "4"
     },
     {
       "name": "dsfsf",
-      "id": 5
+      "id": "5"
     },
     {
       "name": "Cate4gory",
-      "id": 6
+      "id": "6"
+    },
+    {
+      "id": 1711984502504,
+      "name": "First Test Category"
     }
   ],
   "expenses": [
     {
-      "id": 1,
+      "id": "1",
       "description": "Food for week",
       "categoryId": 1,
       "amount": 700
     },
     {
-      "id": 2,
+      "id": "2",
       "description": "Monthly electricity bill",
       "categoryId": 2,
       "amount": 300

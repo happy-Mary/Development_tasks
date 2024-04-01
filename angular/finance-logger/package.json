@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "mock-database": "json-server src/mock/database.json"
+    "start-mock-database": "json-server src/mock/database.json"
   },
   "private": true,
   "dependencies": {

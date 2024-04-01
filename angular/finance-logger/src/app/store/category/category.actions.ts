@@ -9,14 +9,17 @@ import { Category } from '../../models/category';
 export const categoryActions = createActionGroup({
   source: 'Category List',
   events: {
-    'Add Category': props<{ category: Category }>(),
-    'Delete Category': props<{ name: string }>(),
     'Update Category': props<{ category: Category }>(),
     'Delete All Categories': emptyProps(),
-    // 'Store Categories': props<{ payload: Category[] }>(),
-    'Categories List Loaded': emptyProps(),
+    'Categories List Load': emptyProps(),
     'Categories List Success': props<{ payload: Category[] }>(),
     'Categories List Error': emptyProps(),
+    'Add Category': props<{ category: Category }>(),
+    'Add Category Success': props<{ payload: Category }>(),
+    'Add Category Error': emptyProps(),
+    'Delete Category': props<{ id: string }>(),
+    'Delete Category Success': props<{ id: string }>(),
+    'Delete Category Error': emptyProps(),
   },
 });
 

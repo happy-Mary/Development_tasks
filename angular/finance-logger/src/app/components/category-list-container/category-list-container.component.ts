@@ -23,13 +23,13 @@ export class CategoryListContainerComponent implements OnInit {
       private readonly store: Store<{ categories: CategoryState }>,
       private readonly categoryService: CategoryService
     ) {
-    // this.categories$.subscribe((val) => console.log('CCC', val));
+    this.categories$.subscribe((val) => console.log('Cat List Updated: ', val));
   }
 
   ngOnInit(): void {
     this.categoryService.getCategories()
     .subscribe((payload: Category[]) => {
-      this.store.dispatch(categoryActions.categoriesListLoaded());
+      this.store.dispatch(categoryActions.categoriesListLoad());
     })
   }
 
@@ -37,7 +37,7 @@ export class CategoryListContainerComponent implements OnInit {
     this.store.dispatch(categoryActions.addCategory({ category }));
   }
 
-  deleteCategory({ name }: Category) {
-    this.store.dispatch(categoryActions.deleteCategory({ name }));
+  deleteCategory({ id }: Category) {
+    this.store.dispatch(categoryActions.deleteCategory({ id }));
   }
 }

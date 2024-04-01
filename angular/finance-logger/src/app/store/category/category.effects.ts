@@ -12,19 +12,51 @@ export class CategoriesEffects {
     private readonly categoriesService: CategoryService
   ) {}
 
-  categoriesListLoaded$ = createEffect(() => {
+  categoriesListLoad$ = createEffect(() => {
     const {
-      categoriesListLoaded,
+      categoriesListLoad,
       categoriesListSuccess,
       categoriesListError,
     } = categoryActions;
     
     return this.actions$.pipe(
-      ofType(categoriesListLoaded),
-      mergeMap(() => this.categoriesService.getCategories().pipe(
-        map((categories) => categoriesListSuccess({ payload: categories })),
-        catchError(() => of(categoriesListError()))
-      ))
+      ofType(categoriesListLoad),
+      mergeMap(
+        () => this.categoriesService.getCategories()
+        .pipe(
+          map((categories) => categoriesListSuccess({ payload: categories })),
+          catchError(() => of(categoriesListError()))
+        )
+      )
     )
   });
+
+  addCategory$ = createEffect(() => {
+    const { addCategory, addCategorySuccess, addCategoryError } = categoryActions;
+
+    return this.actions$.pipe(
+      ofType(addCategory),
+      mergeMap(
+        ({ category }) => this.categoriesService.addCategory(category)
+        .pipe(
+          map((category) => addCategorySuccess({ payload: category })),
+          catchError(() => of(addCategoryError()))
+        )
+      )
+    );
+  });
+
+  deleteCategory$ = createEffect(() => {
+    const { deleteCategory, deleteCategorySuccess, deleteCategoryError } = categoryActions;
+    return this.actions$.pipe(
+      ofType(deleteCategory),
+      mergeMap(
+        ({ id }) => this.categoriesService.deleteCategory(id)
+        .pipe(
+          map(() => deleteCategorySuccess({ id })),
+          catchError(() => of(deleteCategoryError()))
+        )
+      )
+    );
+  })
 }
