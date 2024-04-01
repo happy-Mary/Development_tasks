@@ -20,16 +20,16 @@
       "id": "4"
     },
     {
-      "name": "dsfsf",
-      "id": "5"
-    },
-    {
       "name": "Cate4gory",
       "id": "6"
     },
     {
-      "id": 1711984502504,
+      "id": "1711984502504",
       "name": "First Test Category"
+    },
+    {
+      "id": "1711988372441",
+      "name": "New Cat"
     }
   ],
   "expenses": [

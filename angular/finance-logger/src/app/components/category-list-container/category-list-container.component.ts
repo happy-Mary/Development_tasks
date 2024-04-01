@@ -6,7 +6,6 @@ import { Category } from 'src/app/models/category';
 import { CategoryState } from 'src/app/store/category';
 import { selectCategories } from '../../store/category/category.selectors';
 import { categoryActions } from 'src/app/store/category';
-import { CategoryService } from 'src/app/services/category.service';
 import { CategoryListPresenterComponent } from '../category-list-presenter/category-list-presenter.component';
 
 @Component({
@@ -20,17 +19,13 @@ export class CategoryListContainerComponent implements OnInit {
   categories$: Observable<Category[]> = this.store.select(selectCategories);
 
   constructor(
-      private readonly store: Store<{ categories: CategoryState }>,
-      private readonly categoryService: CategoryService
-    ) {
+    private readonly store: Store<{ categories: CategoryState }>
+  ) {
     this.categories$.subscribe((val) => console.log('Cat List Updated: ', val));
   }
 
   ngOnInit(): void {
-    this.categoryService.getCategories()
-    .subscribe((payload: Category[]) => {
-      this.store.dispatch(categoryActions.categoriesListLoad());
-    })
+    this.store.dispatch(categoryActions.categoriesListLoad());
   }
 
   addCategory(category: Category) {

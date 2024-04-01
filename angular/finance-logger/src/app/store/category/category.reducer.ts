@@ -19,7 +19,7 @@ export const categoryReducer: ActionReducer<CategoryState> = createReducer(
     ...state,
     list: [...state.list, payload],
   })),
-  on(categoryActions.deleteCategory, (state, { id }): CategoryState => ({
+  on(categoryActions.deleteCategorySuccess, (state, { id }): CategoryState => ({
     ...state,
     list: state.list.filter((cat) => cat.id !== id),
   })),
