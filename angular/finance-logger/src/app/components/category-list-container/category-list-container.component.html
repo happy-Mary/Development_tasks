@@ -1,2 +1,6 @@
-<app-category-list-presenter [categories]="(categories$ | async) ?? []">
+<app-category-list-presenter
+  [categories]="(categories$ | async) ?? []"
+  (categoryAdded)="addCategory($event)"
+  (categoryDeleted)="deleteCategory($event)"
+  >
 </app-category-list-presenter>

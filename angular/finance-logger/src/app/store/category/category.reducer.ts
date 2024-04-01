@@ -7,17 +7,17 @@ const { categoryActions } = actions;
 
 export const categoryReducer: ActionReducer<CategoryState> = createReducer(
   initialState,
-  on(categoryActions.addCategory, (state, { category }) => ({
+  on(categoryActions.addCategory, (state, { category }): CategoryState => ({
     ...state,
-    categories: [...state.list, category],
+    list: [...state.list, category],
   })),
-  on(categoryActions.deleteCategory, (state, { name }) => ({
+  on(categoryActions.deleteCategory, (state, { name }): CategoryState => ({
     ...state,
-    categories: state.list.filter((cat) => cat.name !== name),
+    list: state.list.filter((cat) => cat.name !== name),
   })),
-  on(categoryActions.deleteAllCategories, (state) => ({
+  on(categoryActions.deleteAllCategories, (state): CategoryState => ({
     ...state,
-    categories: [],
+    list: [],
   }))
 );
 // TODO: ???

@@ -16,7 +16,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     const newCategory: Category = { name: 'Food' };
-    categoryActions.addCategory({ category: newCategory });
   }
 
   deleteCategory(category: Category) {
