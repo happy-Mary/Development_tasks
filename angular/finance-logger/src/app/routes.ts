@@ -1,8 +1,13 @@
-import { Routes } from "@angular/router";
-import { CategoryListContainerComponent } from "./components/category-list-container/category-list-container.component";
+import { Routes } from '@angular/router';
+import { CategoryListContainerComponent } from './components/category/category-list-container/category-list-container.component';
 
 export const routeConfig: Routes = [
-  { path: "categories", component: CategoryListContainerComponent },
+  { 
+    path: 'categories',
+    loadComponent: 
+    () => import("./components/category/category-list-container/category-list-container.component")
+    .then((m) => m.CategoryListContainerComponent),
+  },
   { path: '', redirectTo: '/categories', pathMatch: 'full' },
-  { path: '**', component: CategoryListContainerComponent }
+  { path: '**', component: CategoryListContainerComponent },
 ];

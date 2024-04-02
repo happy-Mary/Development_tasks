@@ -1,12 +1,11 @@
 import { ActionReducer, createReducer, on } from '@ngrx/store';
-
 import * as actions from './category.actions';
-import { CategoryState, initialState } from './category.state';
+import { CategoryState, initialCategoryState } from './category.state';
 
 const { categoryActions } = actions;
 
 export const categoryReducer: ActionReducer<CategoryState> = createReducer(
-  initialState,
+  initialCategoryState,
   on(categoryActions.deleteAllCategories, (state): CategoryState => ({
     ...state,
     list: [],
@@ -26,7 +25,7 @@ export const categoryReducer: ActionReducer<CategoryState> = createReducer(
 );
 
 
-// TODO: ???
+// TODO: ?
 // export function reducer(state: CategoryState, action: Action): CategoryState {
 //   return _reducer(state, action);
 // }

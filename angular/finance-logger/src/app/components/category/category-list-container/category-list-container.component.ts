@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Category } from 'src/app/models/category';
-import { CategoryState } from 'src/app/store/category';
-import { selectCategories } from '../../store/category/category.selectors';
-import { categoryActions } from 'src/app/store/category';
+import { CategoryState, categoryActions } from 'src/app/store/category';
+import { selectCategories } from '../../../store/category/category.selectors';
 import { CategoryListPresenterComponent } from '../category-list-presenter/category-list-presenter.component';
 
 @Component({
@@ -18,9 +17,7 @@ import { CategoryListPresenterComponent } from '../category-list-presenter/categ
 export class CategoryListContainerComponent implements OnInit {
   categories$: Observable<Category[]> = this.store.select(selectCategories);
 
-  constructor(
-    private readonly store: Store<{ categories: CategoryState }>
-  ) {
+  constructor(private readonly store: Store<{ categories: CategoryState }>) {
     this.categories$.subscribe((val) => console.log('Cat List Updated: ', val));
   }
 

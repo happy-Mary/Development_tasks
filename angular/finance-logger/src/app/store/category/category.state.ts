@@ -4,7 +4,7 @@ export interface CategoryState {
   list: Category[];
 }
 
-export const initialState: CategoryState = {
+export const initialCategoryState: CategoryState = {
   list: [],
 };
 

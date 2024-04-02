@@ -113,5 +113,4 @@ export class CategoriesEffects {
         })
     );
   }, { dispatch: false });
-
 }
