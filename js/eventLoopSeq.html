@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Loop sequence of task:</title>
+</head>
+<body>
+  <main>
+    <h2>Event Loop sequence of task:</h2>
+    <ol>
+      <li>Main stack commands</li>
+      <li>Microtask queue - Promise, MutationObserver, queueMicrotask</li>
+      <li>UI Render Updates - requestAnimationFrame</li>
+      <li>Task queue - Timers, Event Listeners</li>
+    </ol>
+  </main>
+  <script>
+    console.log('A stack');
+    queueMicrotask(() => console.log('B microtask (queueMicrotask)'));
+    requestAnimationFrame(() => console.log('C requestAnimationFrame'));
+    console.log('D stack');
+    setTimeout(() => console.log('E task'), 0);
+    console.log('F stack');
+    Promise.resolve()
+    .then(() => console.log('G microtask (promise)'))
+    .then(() => console.log('H microtask (promise)'));
+
+    requestAnimationFrame(() => console.log('I requestAnimationFrame'));
+    console.log('J stack');
+
+    setTimeout(() => console.log('K task'), 1);
+    queueMicrotask(() => console.log('L microtask (queueMicrotask)'));
+    console.log('M stack');
+  </script>
+</body>
+</html>
