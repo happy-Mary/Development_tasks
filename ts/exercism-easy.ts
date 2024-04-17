@@ -58,10 +58,58 @@ export enum DNAtoRNA {
   'A' = 'U',
 }
 
-type DNA = keyof typeof  DNAtoRNA;
-// TODO: handle "Invalid input DNA."
+type DNA = keyof typeof DNAtoRNA;
+
+function isValidDNA(str: string): str is DNA {
+  return DNAtoRNA.hasOwnProperty(str);
+}
+
 export const toRna = (value: string): string => {
-  return value.split('')
-    .map((str: string): string => DNAtoRNA[str as DNA])
-    .join('');
+  try {
+    return value.split('')
+      .reduce<DNA[]>((dnaList, char) => {
+        if (isValidDNA(char)) {
+          return [...dnaList, DNAtoRNA[char as DNA] as DNA];
+        }
+        throw new Error('Invalid input DNA.');
+      }, [])
+      .join('');
+  } catch (error: any) {
+    return error.message;
+  }
+}
+
+console.log('RNA Transcription: ', toRna('XXX'))
+console.log('RNA Transcription: ', toRna('C'))
+console.log('RNA Transcription: ', toRna('U'))
+console.log('\n');
+
+//* Space Age
+enum OrbitalPeriods {
+  mercury = 0.2408467,
+  venus = 0.61519726,
+  earth = 1.0,
+  mars = 1.8808158,
+  jupiter = 11.862615,
+  saturn = 29.447498,
+  uranus = 84.016846,
+  neptune = 164.79132
+};
+export function age(planet: keyof typeof OrbitalPeriods, seconds: number): number {
+  const earthYears = seconds / 31557600;
+  const orbitalPeriod = OrbitalPeriods[planet];
+  return parseFloat((earthYears / orbitalPeriod).toFixed(2));
+}
+console.log('Space Age: ', age('earth', 1000000000), 31.69);
+console.log('Space Age: ', age('mars', 2129871239), 35.88);
+
+//* D&D Character
+export class DnDCharacter {
+  public static generateAbilityScore(): number {
+    throw new Error('Remove this statement and implement this function')
+  }
+
+  public static getModifierFor(abilityValue: number): number {
+    throw new Error('Remove this statement and implement this function')
+  }
 }

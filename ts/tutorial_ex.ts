@@ -533,4 +533,4 @@
 // - type vs. interface vs. class
 // - String literal unions vs. string enums
 // - when to use method overloading in projects
-// - using keyof
+// - using keyof vs. 'keyof typeof'
