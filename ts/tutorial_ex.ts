@@ -1,5 +1,11 @@
 // https://learntypescript.dev/06/intro
 (() => {
+	// MOCK Document to use in node console
+	const document = {
+		getElementById: (id: string) => ({}),
+		querySelector: (id: string) => ({}),
+	};
+
 	//? TYPE INFERENCE
 	let dateOfBirth: Date = new Date(1990, 4, 7);
 	console.log(dateOfBirth instanceof Date);
@@ -22,7 +28,7 @@
 	const point = { x: 32, y: 77 };
 	point.x = 40;
 	point.y = 80;
-	// point.z = 10; //! error
+	// point.z = 10; //!💥 error
 
 	//? TUPLES
 	const tomScore1: [string, number] = ['Tom', 70];
@@ -49,8 +55,8 @@
 	}
 
 	//? UNKNOWN vs. ANY type (The 'unknown' contains all the possible values, but strict, 'any' not type checked)
-	const add1 = (a: any, b: any) => a + b; // *no error
-	// const add2 = (a: unknown, b: unknown) => a + b; // !error, math is not allowed on any value
+	const add1 = (a: any, b: any) => a + b; //😊 no error
+	// const add2 = (a: unknown, b: unknown) => a + b; //!💥 error: math is not allowed on any value
 	// fix error with type guard:
 	const add = (a: unknown, b: unknown): number => {
 		if (typeof a === 'number' && typeof b === 'number') {
@@ -74,8 +80,8 @@
 	};
 	async function getPerson(id: string): Promise<Person | null> {
 		const person = await getData('/people/1');
-		// if (person) return person; // !Error
-		if (person && isPerson(person)) return person; // *Fixed with type predicate
+		// if (person) return person; //!💥 Error
+		if (person && isPerson(person)) return person; //😊 Fixed with type predicate
 		return null;
 	}
 
@@ -86,9 +92,9 @@
 		Low,
 	}
 	let numLevel: NumericLevel;
-	// numLevel = 5; //! error
-	numLevel = 0; //* no error
-	numLevel = NumericLevel.Medium; //* no error
+	// numLevel = 5; //!💥 error
+	numLevel = 0; //😊 no error
+	numLevel = NumericLevel.Medium; //😊 no error
 
 	//* String enum values are strongly-typed to the named values declared in the enum
 	enum StringLevel {
@@ -98,9 +104,9 @@
 	}
 
 	let level: StringLevel;
-	// level = 'JK' //! error
-	// level = 'H' //! error
-	level = StringLevel.High; //* no error
+	// level = 'JK' //!💥 error
+	// level = 'H' //!💥 error
+	level = StringLevel.High; //😊 no error
 
 	//? TYPE ALIASES
 	//* for primitives [type TypeAliasName = ExistingType]
@@ -147,8 +153,8 @@
 	//* string literal union types
 	type Fruit = 'Banana' | 'Apple' | 'Pear';
 	let fruit: Fruit;
-	// fruit = 'pear'; //! error
-	// fruit = 'strawberry'; //! error
+	// fruit = 'pear'; //!💥 error
+	// fruit = 'strawberry'; //!💥 error
 	fruit = 'Apple';
 
 	//* Object union types
@@ -156,8 +162,8 @@
 		| { type: 'loading' }
 		| { type: 'loaded'; data: { name: string } };
 	let loadingAction: Actions;
-	// loadingAction = { type: 'error' }; //! error
-	loadingAction = { type: 'loading' };
+	// loadingAction = { type: 'error' }; //!💥 error
+	loadingAction = { type: 'loading' }; //😊 no error
 
 	//? INTERSECTION TYPES [ type A_and_B_and_C = A & B & C ]
 	type Name = {
@@ -194,8 +200,8 @@
 	type Field = BaseElement & TextInput;
 	const age1: Field = {
 		name: 'Age',
-		// kind: 'number', //! error, mathematically intersected
-		kind: 'text', //* no error
+		// kind: 'number', //!💥 error, mathematically intersected
+		kind: 'text', //😊 no error
 	};
 
 	type A = {
@@ -207,8 +213,8 @@
 	type A_and_B = A & B;
 
 	const ab_v2: A_and_B = {
-		doIt: (a: string) => {}, //* no error
-		// doIt: (a: string, b: string) => {},  //! error, mathematically intersected
+		doIt: (a: string) => {}, //😊 no error
+		// doIt: (a: string, b: string) => {},  //!💥 error, mathematically intersected
 	};
 
 	type OrderStatus = 'pending' | 'completed';
@@ -243,7 +249,7 @@
 		}
 	}
 
-	// table1.price = 500; //!error: readonly property OR (if private -> not accessible by the consumer of the class)
+	// table1.price = 500; //!💥 error: readonly property OR (if private -> not accessible by the consumer of the class)
 	const table1 = new Product('Table 1', 300);
 	const table2 = table1.copy('Table 2');
 	console.log(Product.equal(table1, table2));
@@ -311,13 +317,13 @@
 			this.log(this.name + ' Bark');
 		}
 	}
-	// const animal = new Animal('Lord');  //! error: abstract classes could not be instantiated
+	// const animal = new Animal('Lord');  //!💥 error: abstract classes could not be instantiated
 	const dog = new Dog('Fudge');
 	dog.bark();
 
 	//? GENERICS [const myVar = GenericType<SpecificType1, SpecificType2, ...>]
 	let scores = [70, 65, 75];
-	// scores = [70, '65', 75]; //! error for '65': TS picks up the type
+	// scores = [70, '65', 75]; //!💥 error for '65': TS picks up the type
 	type Coordinate = [number, number];
 	let coordinates: Array<Coordinate>;
 	coordinates = [
@@ -399,7 +405,7 @@
 			email: 'bob@someemail.com',
 		},
 		errors: {
-			// 'age': 'some error', //! error: no such key in T
+			// 'age': 'some error', //!💥 error: no such key in T
 			name: 'wrong length',
 		},
 	};
@@ -424,8 +430,8 @@
 	const numberList = new List<number>();
 	const numberList2 = new List<string>();
 	numberList.add(1);
-	// numberList.add('2'); //! error for T as <number>
-	numberList2.add('2'); // no error for <string>
+	// numberList.add('2'); //!💥 error for T as <number>
+	numberList2.add('2'); //😊 no error for <string>
 
 	//* GENERICS: Parameter Defaults
 	//* <T = DefaultType>
@@ -478,22 +484,25 @@
 		values: T;
 	}
 
-	//! error for getting fieldName, TS doesn't know what the structure of value
+	//!💥 error for getting fieldName, TS doesn't know what the structure of value
 	// const getFieldValue = <T>(form: FormEl<T>, fieldName: string) => {
-	//* no error: TS 'keyof' keyword queries the keys of the type referenced after it
-	const getFieldValue = <T, K extends keyof T>(form: FormEl<T>, fieldName: K) => {
+	//😊 no error: TS 'keyof' keyword queries the keys of the type referenced after it
+	const getFieldValue = <T, K extends keyof T>(
+		form: FormEl<T>,
+		fieldName: K
+	) => {
 		return form.values[fieldName];
-	}
+	};
 	console.log(getFieldValue(contactForm, 'name'));
-	// console.log(getFieldValue(contactForm, 'phone')); //! error: 'phone' is not 'keyof Contact'
-	
+	// console.log(getFieldValue(contactForm, 'phone')); //!💥 error: 'phone' is not 'keyof Contact'
+
 	//* GENERICS: Rest Elements with Tuple Types
 	type Scores = [string, ...number[]];
 	type NameAndThings<T extends unknown[]> = [name: string, ...things: T];
 
 	let bobScores: NameAndThings<number[]>;
 	bobScores = ['Bob', 4, 9, 3];
-	// bobScores = ['Bob', 4, '9', 3]; //! error: '9' is a string rather than a number which the type expects
+	// bobScores = ['Bob', 4, '9', 3]; //!💥 error: '9' is a string rather than a number which the type expects
 	let bobGrades: NameAndThings<('A' | 'B' | 'C')[]>;
 	bobGrades = ['Bill', 'A', 'B', 'C'];
 
@@ -503,7 +512,7 @@
 
 	logThings('Bob', 4, 9, 3);
 	logThings('Bob', 4, '9', 3); // TS infers the generic parameter type to be [number, string, number]
-	// logThings<number[]>('Bob', 4, '9', 3); //! error for '9' is not number
+	// logThings<number[]>('Bob', 4, '9', 3); //!💥 error for '9' is not number
 
 	//* GENERICS: Spreading generic tuple parameters
 	function merge(names: string[], scores: number[]) {
@@ -517,13 +526,136 @@
 		return [...names, ...scores];
 	}
 	// inferred type of scores: (string | number)[]
-	let scoresData = merge(["Bill", "Jane"], [8, 9]);
+	let scoresData = merge(['Bill', 'Jane'], [8, 9]);
 	// inferred type of scores: ('Bill' | 'Jane' | 8 | 9)[]
-	scoresData = mergeNarrowed(["Bill", "Jane"], [8, 9]);
+	scoresData = mergeNarrowed(['Bill', 'Jane'], [8, 9]);
 
 	//? TYPE NARROWING
-	
+	//* variable can move from a less precise type to a more precise type
+	type BigAnimal = {
+		name: string;
+		legs?: number;
+	};
+	function addLeg(animal: BigAnimal) {
+		// animal.legs = animal.legs + 1; //!💥 - Object is possibly 'undefined'
+	}
 
+	//* TYPE NARROWING: type assertions to narrow the type
+	//* <TypeName>expression;
+	//* expression as TypeName;
+	let buttonGo = document.querySelector('.go'); // by default type: Element | null
+	// if (buttonGo) buttonGo.disabled = true; //!💥 error: no 'disabled' on Element
+	//😊 no error: no HTMLButtonElement type:
+	const buttonGo_1 = <HTMLButtonElement>document.querySelector('.go');
+	if (buttonGo_1) buttonGo_1.disabled = true;
+	const buttonGo_2 = document.querySelector('.go') as HTMLButtonElement;
+	if (buttonGo_2) buttonGo_2.disabled = true;
+
+	//* TYPE NARROWING: non-null assertion operator (!)
+	//* should only use this when we definitely know the variable or expression can't be null or undefined
+	function duplicate(text: string | null) {
+		let fixString = () => {
+			if (text === null || text === undefined) text = '';
+		};
+		fixString();
+
+		// return text.concat(text); //!💥 error: text could be null
+		return text!.concat(text!); //😊 no error: using (!) - non-null assertion
+	}
+	console.log(duplicate('hello'));
+
+	//* TYPE NARROWING: a `typeof` type guard
+	//* when checking against primitive types
+	function double(item: string | number) {
+		// TODO - return `item.concat(item)` if item is a string
+		// TODO - return `item + item` if item is a number
+		if (typeof item === 'string') return `item.concat(item)`;
+		else return `item + item`;
+	}
+	console.log(double('hello'));
+	console.log(double(1));
+
+	//* TYPE NARROWING: an `instanceof` type guard
+	//* narrow the type of a class object variable
+	//* [objectVariable instanceof ClassName]
+	class ContactClass {
+		constructor(public emailAddress: string) {}
+	}
+	class Manager extends ContactClass {
+		constructor(
+			public firstName: string,
+			public surname: string,
+			emailAddress: string
+		) {
+			super(emailAddress);
+		}
+	}
+	class Organisation extends ContactClass {
+		constructor(public name: string, emailAddress: string) {
+			super(emailAddress);
+		}
+	}
+
+	function sayHello(contact: ContactClass) {
+		// TODO - Output Hello {firstName} if a manager
+		// TODO - Output Hello {name} if an organisation
+		if (contact instanceof Manager) console.log(`Hello ${contact.firstName}`);
+		else if (contact instanceof Organisation)
+			console.log(`Hello ${contact.name}`);
+	}
+
+	//* TYPE NARROWING: an `in` type guard
+	//* to check whether a property belongs to a particular object
+	//* more useful than instanceof because it can be applied to any object structure
+	//* [ propertyName in objectVariable ]
+	interface NewManager {
+		firstName: string;
+		surname: string;
+	}
+	interface NewOrganisation {
+		name: string;
+	}
+	type NewContact = NewManager | NewOrganisation;
+
+	function sayHelloToNew(contact: NewContact) {
+		// TODO - Output Hello {firstName} if a person
+		// TODO - Output Hello {name} if an organisation
+		if ('firstName' in contact) console.log(`Hello ${contact.firstName}`);
+		if ('name' in contact) console.log(`Hello ${contact.name}`);
+	}
+	const bob: NewManager = {
+		firstName: 'Bob',
+		surname: 'Young',
+	};
+	const redBricks: NewOrganisation = { name: 'Red Bricks' };
+	sayHelloToNew(bob);
+	sayHelloToNew(redBricks);
+
+	//* TYPE NARROWING: user-defined type guard with a type predicate
+})();
+
+(function () {
+	enum AGE {
+		CHILD,
+		TEENAGER,
+		ADULT,
+	}
+	let ageKey: string = AGE[2];
+	let ageValue: AGE = AGE.ADULT;
+	console.log('AGE reverse mapping: ', ageKey, ageValue);
+	console.log(AGE[AGE.CHILD]); // "CHILD"
+	console.log(AGE[AGE.TEENAGER]); // "TEENAGER"
+	console.log(AGE[AGE.ADULT]); // "ADULT"
+
+	console.log(
+		'\n heterogeneous enums that allows to mix numeric and string-based values'
+	);
+	enum ANSWER {
+		YES = 'yes',
+		NO = 0,
+	}
+	console.log(ANSWER.YES); // "yes"
+	console.log(ANSWER.NO); // 0
 
 
 })();
