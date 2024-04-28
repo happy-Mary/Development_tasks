@@ -632,6 +632,51 @@
 	sayHelloToNew(redBricks);
 
 	//* TYPE NARROWING: user-defined type guard with a type predicate
+	//* [ paramName is NarrowTypeName ]
+	(function() {
+		interface Person {
+			firstName: string;
+			surname: string;
+		}
+		interface Organisation {
+			name: string;
+		}
+
+		type Contact = Person | Organisation;
+		const isPerson = (contact: Contact): contact is Person => {
+			return contact.hasOwnProperty(firstName)
+		}
+
+		const isOrganisation = (contact: Contact): contact is Organisation => {
+			return (contact as Organisation).name !== undefined;
+		}
+		
+		function sayHello(contact: Contact) {
+			// TODO - Output Hello {firstName} if a person
+			if (isPerson(contact)) {
+				console.log("Hello " + contact.firstName);
+			}
+			// TODO - Output Hello {name} if an organisation
+			if (isOrganisation(contact)) {
+				console.log("Hello " + contact.name);
+			}
+		}
+		
+		const bob: Person = {
+			firstName: "Bob",
+			surname: "Young"
+		};
+		
+		const redBricks: Organisation = {
+			name: "Red Bricks"
+		};
+		
+		sayHello(bob);
+		sayHello(redBricks);
+	})()
+
+
+	// TUTORIAL END
 })();
 
 (function () {

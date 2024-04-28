@@ -258,7 +258,6 @@ console.log(camelCase('CamelCase'), '/ expected: camelCase');
 
 function lastButNotLeast(a, b, c) {
 	const arr = [a % 10, b % 10, c % 10];
-	console.log(a, b, c, [...new Set(arr)]);
 	return [...new Set(arr)].length < 3;
 }
 
@@ -282,3 +281,284 @@ function checkPassword(password, password_repeat) {
 
 checkPassword('Joifd$3', 'Joifd$3');
 checkPassword('YY&glk4Hfi_ffS', 'YY&glk4Hfi_ffS');
+
+function gHappy(string) {
+  let result = false;
+  for (let i = 0; i < string.length; i++) {
+    const char = string[i];
+    if ( char !== 'g') continue;
+    if (string.charAt(i-1) === 'g' || string.charAt(i+1) === 'g') {
+      result = true;
+      continue
+    }
+    if (string.charAt(i-1) !== 'g' || string.charAt(i+1) !== 'g') {
+      result = false;
+      break
+    }
+  }
+
+  return result
+}
+
+console.log(gHappy('Huggy Wuggy'))
+
+function longest(string) {
+	let nBiggest = 0;
+	let nCurrent = 0;
+  Array.from(string).forEach((char, i) => {
+		if (i === 0 || char === string.charAt(i - 1)) nCurrent+=1;
+
+		if (char !== string.charAt(i - 1)) {
+			nBiggest = (nCurrent > nBiggest) ? nCurrent : nBiggest;
+			nCurrent = 1;
+		}
+	})
+
+	console.log('Biggest in a row: ', nBiggest);
+	return nBiggest;
+}
+
+// longest('aaBBBBcDDee') // 4
+// longest('') // 0
+// longest('aaBBcDDDDDDeeFFFFFFFFg') // 8
+// longest('aBBBccD') // 3
+// longest('a') // 1
+
+
+function minimumCost(arr) {
+  const moveRight = (rowI, i) => arr[rowI][i+1];
+	const moveDown = (rowI, i) => arr[rowI+1] ? arr[rowI+1][i] : undefined;
+	let rowI = 0;
+	let elI = 0;
+	let cost = arr[rowI][elI];
+
+	let right = moveRight(rowI, elI);
+	let down = moveDown(rowI, elI);
+
+	while (!isNaN(right) || !isNaN(down)) {
+		if (isNaN(down) || right <= down) {
+			cost+=right;
+			elI+=1;
+		} else  {
+			cost+=down;
+			rowI+=1;
+		}
+
+		right = moveRight(rowI, elI);
+		down =  moveDown(rowI, elI);
+	}
+	console.log('cost: ', cost);
+	return cost;
+}
+
+minimumCost([[4,2,1], [1,1,1], [3,2,4]]) // 11
+minimumCost([ [1,10,5,3], [2,6,1,5], [9,2,8,1], [1,3,1,6] ]) // 22
+
+// TODO: Investigate implementation
+// function minimumCost(arr) {
+//   const minimumCostToCell = (m,n) => {
+//     if (m < 0 || n < 0) return Infinity;
+//     if (m == 0 && n == 0) {
+//         return arr[m][n];
+//     }
+  
+//     return arr[m][n] + Math.min(
+//         minimumCostToCell(m-1, n),
+//         minimumCostToCell(m, n-1)
+//       )
+//   }
+
+//   return minimumCostToCell(arr.length-1, arr[0].length-1)
+// }
+
+function arrayManipulation(n, queries) {
+  let arr = Array(n).fill(0);
+
+  queries.forEach(([a, b, k]) => {
+    const first = Math.max(a - 1, 0);
+    arr = [
+      ...arr.slice(0, first),
+      ...arr.slice(first, b).map(el => el+=k),
+      ...arr.slice(b)
+    ]
+  });
+
+	return Math.max(...arr);
+}
+
+const n = 5;
+const queries = [[1, 2, 100], [2, 5, 100], [3, 4, 100]];
+console.log(arrayManipulation(n, queries)); // Output: 200
+
+/**
+ * Given is an array words with words. 
+ * Return the longest word of the array. 
+ * Return 'Foobar' if the two longest words have the same length.
+ * 
+ **/
+
+function longestWord(words) {
+  let nLength = 0;
+  let nWordsArr = [];
+
+	words.forEach((word) => {
+		if (word.length === nLength) {
+			nWordsArr.push(word)
+		}
+
+		if (word.length > nLength) {
+			nLength = word.length;
+			nWordsArr = [word];
+		}
+	});
+
+	return nWordsArr.length > 1 ? 'Foobar' : nWordsArr[0];
+}
+
+function longestWord_1(words) {
+	const maxLength = Math.max(...words.map(word => word.length));
+
+	return words.reduce((acc, word) => {
+		if (word.length !== maxLength) return acc;
+
+		return acc ? 'Foobar' : word;
+	}, '')
+}
+
+function longestWord_2(words) {
+	let maxLength = 0;
+
+	return words.reduce((acc, word) => {
+		if (word.length >= maxLength) {
+			acc = word.length === maxLength ? 'Foobar' : word;
+			maxLength = word.length;
+		}
+
+		return acc;
+	}, '')
+}
+
+console.log(longestWord_2(['You','are','great']))
+console.log(longestWord_2(['You','are','very','beautiful']))
+
+function uniquePalindromeSubstrings(str) {
+	const strArr = str.split('');
+	const palindromeArr = [];
+
+	const uniquePal = str.split('')
+	.reduce((acc, curr, index) => {
+		for (i = index + 1; i <= str.length; i++) {
+			const subStr = str.slice(index, i);
+			if (subStr.split('').reverse().join('') === subStr) acc.push(subStr);
+		}
+
+		return acc;
+	}, [])
+	.sort();
+
+	return [...new Set(uniquePal)];
+ }
+
+ console.log(uniquePalindromeSubstrings('maoam'));
+
+ function either404A(numbers) {
+	return numbers.reduce((acc, curr, i) => {
+		if (i === 0 || (curr !== 0 && curr !== 4)) return acc;
+		if (curr === numbers[i-1]) acc = !acc;
+		return acc
+	}, false)
+}
+
+function either404B(numbers) {
+	const numStr = numbers.join('');
+	const isZero = numStr.includes('00');
+	const isFour = numStr.includes('44');
+
+	return (isZero || isFour) && !(isZero && isFour);
+}
+
+console.log(either404A([4,3,1]), either404B([4,3,1])) // false
+console.log(either404A([2,8,4,4]), either404B([2,8,4,4])) // true
+console.log(either404A([0,0,3,6,4,4]), either404B([0,0,3,6,4,4])) // false
+
+// divisible by three with "Fizz"
+// divisible by five with "Buzz"
+// divisible by five and three replace it by "FizzBuzz"
+// number
+function fizzBuzz(start, end) {
+	const values = [];
+  for (let val = start; val <= end; val++) {
+		let str = '';
+		if (val%3 === 0) str+='Fizz';
+		if (val%5 === 0) str+='Buzz';
+		values.push(str || val.toString())
+	}
+
+	return values;
+}
+
+console.log(fizzBuzz(1, 5));
+console.log(fizzBuzz(3, 16));
+console.log('\n');
+
+function findPairs(arr, target) {
+  return arr.sort().reduce((acc, num, i) => {
+		for(let idx = i+1; idx < arr.length; idx++) {
+			if ((num + arr[idx]) === target) acc.push([num, arr[idx]])
+		}
+
+		return acc
+	}, []);
+}
+
+console.log(findPairs([1,2,3,4,5], 5))
+console.log(findPairs([3,7,8,4,5,9], 12))
+console.log('\n');
+
+/* A String string is given. 
+	Return the number of the word "Me" in this string. 
+	Count 'Me' only if none 'x' is anywhere in front of it.
+*/
+function countMe(string) {
+  let idx = string.lastIndexOf('Me');
+	let count = 0;
+
+	while (idx >= 0) {
+		const subStr = string.substring(0, idx);
+		count = (idx === 0 || !subStr.includes('x')) ? count+=1 : count;
+		idx = subStr.lastIndexOf('Me');
+	}
+	console.log('Result: ', count)
+	return count;
+}
+
+countMe('Meishere');
+countMe('thisisxMe');
+countMe('xMeisxMe');
+countMe('MeixsyouMe');
+
+function timeConvert(minutes) {
+  const hours = String(parseInt(minutes / 60)).padStart(2, '0');
+	const min = String(minutes % 60).padStart(2, '0');
+	const time = `${hours}:${min}`
+	console.log(time)
+
+	return time;
+}
+
+timeConvert(1000) // '16:40'
+timeConvert(59) // '00:59'
+timeConvert(61) // '01:01'
+timeConvert(1440) //'24:00'
+timeConvert(0) // '00:00'
+timeConvert(34303) // '571:43'
+
+
+
+
+
+
+
+
+
+
