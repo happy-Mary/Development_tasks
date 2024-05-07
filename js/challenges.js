@@ -553,6 +553,124 @@ timeConvert(1440) //'24:00'
 timeConvert(0) // '00:00'
 timeConvert(34303) // '571:43'
 
+function reverseNumber(n) {
+  return Math.sign(n) * Math.abs(n).toString().split('').reverse().join('');
+}
+
+reverseNumber(123) // 321
+reverseNumber(-123) // -321
+reverseNumber(1000) // 1
+
+class PaginationHelper {
+	constructor(collection, itemsPerPage) {
+	// The constructor takes in an array of items and a integer indicating how many
+	// items fit within a single page
+		this.collection = collection;
+		this.itemsPerPage = itemsPerPage;
+	}
+	itemCount() {
+	// returns the number of items within the entire collection
+    return this.collection.length;
+	}
+	pageCount() {
+	// returns the number of pages
+    return Math.ceil(this.collection.length / this.itemsPerPage);
+	}
+	pageItemCount(pageIndex) {
+		// returns the number of items on the current page. page_index is zero based.
+		// this method should return -1 for pageIndex values that are out of range
+    const pageCount = this.pageCount();
+    if (pageIndex < 0 || pageIndex >= pageCount) return -1; // pageIndex out of range
+
+    const startIndex = pageIndex * this.itemsPerPage;
+    const remainingItems = this.collection.length - startIndex;
+    return Math.min(remainingItems, this.itemsPerPage);
+	}
+	pageIndex(itemIndex) {
+		// determines what page an item is on. Zero based indexes
+		// this method should return -1 for itemIndex values that are out of range
+		if (itemIndex < 0 || itemIndex >= this.collection.length) return -1; // itemIndex out of range
+		return Math.floor(itemIndex / this.itemsPerPage);
+	}
+}
+
+const collection = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
+const helper = new PaginationHelper(collection, 10)
+
+console.log(helper.pageCount())
+console.log(helper.itemCount())
+console.log(helper.pageItemCount(1)) // 10
+
+const obj1 = {
+  site: "Codewars",
+  description: "Lorem ipsum dolor sit...",
+  obj2: {
+    str: "Yeah, Codewars!",
+    num: 123,
+    obj3: {
+      something: "Ph'nglui mglw'nafh Codewars R'lyeh wgah'nagl fhtagn. Gotha fm'latgh h'gof'nn, geb chtenff"
+    }
+  }
+};
+
+const obj2 = {
+	site: "Codewars",
+	description: "Lorem ipsum dolor sit...",
+	obj2: {
+	str: "Yeah, Codewars!",
+	num: 123,
+	obj3: {
+			something: "Ph'nglui mglw'nafh Codewars R'lyeh wgah'nagl fhtagn. Gotha fm'latgh h'gof'nn, geb chtenff"
+		}
+	},
+	surprise: "Ha! Codewars :)",
+	nullProperty: null
+};
+
+function searchString(obj, search) {
+	let result = [];
+
+	for(let key in obj) {
+		const value = obj[key];
+		if (typeof value === 'string' && value.includes(search)) result.push(key.toString());
+
+		if (value && typeof value === 'object') {
+			result = result.concat(searchString(value, search).map(k => `${key}.${k}`))
+		}
+	}
+
+	return result.sort();
+}
+
+const results = searchString(obj1, "Codewars"); // results = ["obj2.obj3.something", "obj2.str", "site"]
+const results2 = searchString(obj2, "Codewars") // ["obj2.obj3.something", "obj2.str", "site", "surprise"]
+console.log('\n Result: ', results2)
+
+function getWowelCount(str) {
+	return (str.match(/[aeiou]/gi) || []).length;
+}
+
+console.log('\ngetWowelCount: ', getWowelCount("abracadabra"))
+console.log('\ngetWowelCount: ', getWowelCount('pear tree'))
+
+function highAndLow(paramStr) {
+	const numList = paramStr.split(' ').map(Number);
+	return `${Math.max(...numList)} ${Math.min(...numList)}`;
+}
+console.log(highAndLow("1 2 3 4 5"));  // return "5 1"
+console.log(highAndLow("1 2 -3 4 5")); // return "5 -3"
+console.log(highAndLow("1 9 3 4 -5")); // return "9 -5"
+
+
+function createPhoneNumber(numbers) {
+	const str = numbers.join('');
+	return `(${str.slice(0, 3)}) ${str.slice(3, 6)}-${str.slice(6)}`;
+	// return numbers.join('').replace(/(...)(...)(.*)/, '($1) $2-$3');
+}
+
+console.log(createPhoneNumber([1, 2, 3, 4, 5, 6, 7, 8, 9, 0])) // => returns "(123) 456-7890"
+
+
 
 
 
