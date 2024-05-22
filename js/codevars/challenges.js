@@ -267,8 +267,8 @@ lastButNotLeast(19, 17, 38);
 lastButNotLeast(19, 29, 59);
 
 function checkPassword(password, password_repeat) {
-  // TODO: https://www.codeguage.com/courses/regexp/
-  // const regex = /^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[&$%§_\-]).{8,}$/;
+	// TODO: https://www.codeguage.com/courses/regexp/
+	// const regex = /^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[&$%§_\-]).{8,}$/;
 	if (password.length < 8 || password !== password_repeat) return false;
 
 	const hasCapital = /[A-Z]/.test(password);
@@ -283,36 +283,36 @@ checkPassword('Joifd$3', 'Joifd$3');
 checkPassword('YY&glk4Hfi_ffS', 'YY&glk4Hfi_ffS');
 
 function gHappy(string) {
-  let result = false;
-  for (let i = 0; i < string.length; i++) {
-    const char = string[i];
-    if ( char !== 'g') continue;
-    if (string.charAt(i-1) === 'g' || string.charAt(i+1) === 'g') {
-      result = true;
-      continue
-    }
-    if (string.charAt(i-1) !== 'g' || string.charAt(i+1) !== 'g') {
-      result = false;
-      break
-    }
-  }
+	let result = false;
+	for (let i = 0; i < string.length; i++) {
+		const char = string[i];
+		if (char !== 'g') continue;
+		if (string.charAt(i - 1) === 'g' || string.charAt(i + 1) === 'g') {
+			result = true;
+			continue;
+		}
+		if (string.charAt(i - 1) !== 'g' || string.charAt(i + 1) !== 'g') {
+			result = false;
+			break;
+		}
+	}
 
-  return result
+	return result;
 }
 
-console.log(gHappy('Huggy Wuggy'))
+console.log(gHappy('Huggy Wuggy'));
 
 function longest(string) {
 	let nBiggest = 0;
 	let nCurrent = 0;
-  Array.from(string).forEach((char, i) => {
-		if (i === 0 || char === string.charAt(i - 1)) nCurrent+=1;
+	Array.from(string).forEach((char, i) => {
+		if (i === 0 || char === string.charAt(i - 1)) nCurrent += 1;
 
 		if (char !== string.charAt(i - 1)) {
-			nBiggest = (nCurrent > nBiggest) ? nCurrent : nBiggest;
+			nBiggest = nCurrent > nBiggest ? nCurrent : nBiggest;
 			nCurrent = 1;
 		}
-	})
+	});
 
 	console.log('Biggest in a row: ', nBiggest);
 	return nBiggest;
@@ -324,10 +324,9 @@ function longest(string) {
 // longest('aBBBccD') // 3
 // longest('a') // 1
 
-
 function minimumCost(arr) {
-  const moveRight = (rowI, i) => arr[rowI][i+1];
-	const moveDown = (rowI, i) => arr[rowI+1] ? arr[rowI+1][i] : undefined;
+	const moveRight = (rowI, i) => arr[rowI][i + 1];
+	const moveDown = (rowI, i) => (arr[rowI + 1] ? arr[rowI + 1][i] : undefined);
 	let rowI = 0;
 	let elI = 0;
 	let cost = arr[rowI][elI];
@@ -337,22 +336,31 @@ function minimumCost(arr) {
 
 	while (!isNaN(right) || !isNaN(down)) {
 		if (isNaN(down) || right <= down) {
-			cost+=right;
-			elI+=1;
-		} else  {
-			cost+=down;
-			rowI+=1;
+			cost += right;
+			elI += 1;
+		} else {
+			cost += down;
+			rowI += 1;
 		}
 
 		right = moveRight(rowI, elI);
-		down =  moveDown(rowI, elI);
+		down = moveDown(rowI, elI);
 	}
 	console.log('cost: ', cost);
 	return cost;
 }
 
-minimumCost([[4,2,1], [1,1,1], [3,2,4]]) // 11
-minimumCost([ [1,10,5,3], [2,6,1,5], [9,2,8,1], [1,3,1,6] ]) // 22
+minimumCost([
+	[4, 2, 1],
+	[1, 1, 1],
+	[3, 2, 4],
+]); // 11
+minimumCost([
+	[1, 10, 5, 3],
+	[2, 6, 1, 5],
+	[9, 2, 8, 1],
+	[1, 3, 1, 6],
+]); // 22
 
 // TODO: Investigate implementation
 // function minimumCost(arr) {
@@ -361,7 +369,7 @@ minimumCost([ [1,10,5,3], [2,6,1,5], [9,2,8,1], [1,3,1,6] ]) // 22
 //     if (m == 0 && n == 0) {
 //         return arr[m][n];
 //     }
-  
+
 //     return arr[m][n] + Math.min(
 //         minimumCostToCell(m-1, n),
 //         minimumCostToCell(m, n-1)
@@ -372,38 +380,42 @@ minimumCost([ [1,10,5,3], [2,6,1,5], [9,2,8,1], [1,3,1,6] ]) // 22
 // }
 
 function arrayManipulation(n, queries) {
-  let arr = Array(n).fill(0);
+	let arr = Array(n).fill(0);
 
-  queries.forEach(([a, b, k]) => {
-    const first = Math.max(a - 1, 0);
-    arr = [
-      ...arr.slice(0, first),
-      ...arr.slice(first, b).map(el => el+=k),
-      ...arr.slice(b)
-    ]
-  });
+	queries.forEach(([a, b, k]) => {
+		const first = Math.max(a - 1, 0);
+		arr = [
+			...arr.slice(0, first),
+			...arr.slice(first, b).map((el) => (el += k)),
+			...arr.slice(b),
+		];
+	});
 
 	return Math.max(...arr);
 }
 
 const n = 5;
-const queries = [[1, 2, 100], [2, 5, 100], [3, 4, 100]];
+const queries = [
+	[1, 2, 100],
+	[2, 5, 100],
+	[3, 4, 100],
+];
 console.log(arrayManipulation(n, queries)); // Output: 200
 
 /**
- * Given is an array words with words. 
- * Return the longest word of the array. 
+ * Given is an array words with words.
+ * Return the longest word of the array.
  * Return 'Foobar' if the two longest words have the same length.
- * 
+ *
  **/
 
 function longestWord(words) {
-  let nLength = 0;
-  let nWordsArr = [];
+	let nLength = 0;
+	let nWordsArr = [];
 
 	words.forEach((word) => {
 		if (word.length === nLength) {
-			nWordsArr.push(word)
+			nWordsArr.push(word);
 		}
 
 		if (word.length > nLength) {
@@ -416,13 +428,13 @@ function longestWord(words) {
 }
 
 function longestWord_1(words) {
-	const maxLength = Math.max(...words.map(word => word.length));
+	const maxLength = Math.max(...words.map((word) => word.length));
 
 	return words.reduce((acc, word) => {
 		if (word.length !== maxLength) return acc;
 
 		return acc ? 'Foobar' : word;
-	}, '')
+	}, '');
 }
 
 function longestWord_2(words) {
@@ -435,38 +447,39 @@ function longestWord_2(words) {
 		}
 
 		return acc;
-	}, '')
+	}, '');
 }
 
-console.log(longestWord_2(['You','are','great']))
-console.log(longestWord_2(['You','are','very','beautiful']))
+console.log(longestWord_2(['You', 'are', 'great']));
+console.log(longestWord_2(['You', 'are', 'very', 'beautiful']));
 
 function uniquePalindromeSubstrings(str) {
 	const strArr = str.split('');
 	const palindromeArr = [];
 
-	const uniquePal = str.split('')
-	.reduce((acc, curr, index) => {
-		for (i = index + 1; i <= str.length; i++) {
-			const subStr = str.slice(index, i);
-			if (subStr.split('').reverse().join('') === subStr) acc.push(subStr);
-		}
+	const uniquePal = str
+		.split('')
+		.reduce((acc, curr, index) => {
+			for (i = index + 1; i <= str.length; i++) {
+				const subStr = str.slice(index, i);
+				if (subStr.split('').reverse().join('') === subStr) acc.push(subStr);
+			}
 
-		return acc;
-	}, [])
-	.sort();
+			return acc;
+		}, [])
+		.sort();
 
 	return [...new Set(uniquePal)];
- }
+}
 
- console.log(uniquePalindromeSubstrings('maoam'));
+console.log(uniquePalindromeSubstrings('maoam'));
 
- function either404A(numbers) {
+function either404A(numbers) {
 	return numbers.reduce((acc, curr, i) => {
 		if (i === 0 || (curr !== 0 && curr !== 4)) return acc;
-		if (curr === numbers[i-1]) acc = !acc;
-		return acc
-	}, false)
+		if (curr === numbers[i - 1]) acc = !acc;
+		return acc;
+	}, false);
 }
 
 function either404B(numbers) {
@@ -477,9 +490,9 @@ function either404B(numbers) {
 	return (isZero || isFour) && !(isZero && isFour);
 }
 
-console.log(either404A([4,3,1]), either404B([4,3,1])) // false
-console.log(either404A([2,8,4,4]), either404B([2,8,4,4])) // true
-console.log(either404A([0,0,3,6,4,4]), either404B([0,0,3,6,4,4])) // false
+console.log(either404A([4, 3, 1]), either404B([4, 3, 1])); // false
+console.log(either404A([2, 8, 4, 4]), either404B([2, 8, 4, 4])); // true
+console.log(either404A([0, 0, 3, 6, 4, 4]), either404B([0, 0, 3, 6, 4, 4])); // false
 
 // divisible by three with "Fizz"
 // divisible by five with "Buzz"
@@ -487,11 +500,11 @@ console.log(either404A([0,0,3,6,4,4]), either404B([0,0,3,6,4,4])) // false
 // number
 function fizzBuzz(start, end) {
 	const values = [];
-  for (let val = start; val <= end; val++) {
+	for (let val = start; val <= end; val++) {
 		let str = '';
-		if (val%3 === 0) str+='Fizz';
-		if (val%5 === 0) str+='Buzz';
-		values.push(str || val.toString())
+		if (val % 3 === 0) str += 'Fizz';
+		if (val % 5 === 0) str += 'Buzz';
+		values.push(str || val.toString());
 	}
 
 	return values;
@@ -502,17 +515,17 @@ console.log(fizzBuzz(3, 16));
 console.log('\n');
 
 function findPairs(arr, target) {
-  return arr.sort().reduce((acc, num, i) => {
-		for(let idx = i+1; idx < arr.length; idx++) {
-			if ((num + arr[idx]) === target) acc.push([num, arr[idx]])
+	return arr.sort().reduce((acc, num, i) => {
+		for (let idx = i + 1; idx < arr.length; idx++) {
+			if (num + arr[idx] === target) acc.push([num, arr[idx]]);
 		}
 
-		return acc
+		return acc;
 	}, []);
 }
 
-console.log(findPairs([1,2,3,4,5], 5))
-console.log(findPairs([3,7,8,4,5,9], 12))
+console.log(findPairs([1, 2, 3, 4, 5], 5));
+console.log(findPairs([3, 7, 8, 4, 5, 9], 12));
 console.log('\n');
 
 /* A String string is given. 
@@ -520,15 +533,15 @@ console.log('\n');
 	Count 'Me' only if none 'x' is anywhere in front of it.
 */
 function countMe(string) {
-  let idx = string.lastIndexOf('Me');
+	let idx = string.lastIndexOf('Me');
 	let count = 0;
 
 	while (idx >= 0) {
 		const subStr = string.substring(0, idx);
-		count = (idx === 0 || !subStr.includes('x')) ? count+=1 : count;
+		count = idx === 0 || !subStr.includes('x') ? (count += 1) : count;
 		idx = subStr.lastIndexOf('Me');
 	}
-	console.log('Result: ', count)
+	console.log('Result: ', count);
 	return count;
 }
 
@@ -538,53 +551,53 @@ countMe('xMeisxMe');
 countMe('MeixsyouMe');
 
 function timeConvert(minutes) {
-  const hours = String(parseInt(minutes / 60)).padStart(2, '0');
+	const hours = String(parseInt(minutes / 60)).padStart(2, '0');
 	const min = String(minutes % 60).padStart(2, '0');
-	const time = `${hours}:${min}`
-	console.log(time)
+	const time = `${hours}:${min}`;
+	console.log(time);
 
 	return time;
 }
 
-timeConvert(1000) // '16:40'
-timeConvert(59) // '00:59'
-timeConvert(61) // '01:01'
-timeConvert(1440) //'24:00'
-timeConvert(0) // '00:00'
-timeConvert(34303) // '571:43'
+timeConvert(1000); // '16:40'
+timeConvert(59); // '00:59'
+timeConvert(61); // '01:01'
+timeConvert(1440); //'24:00'
+timeConvert(0); // '00:00'
+timeConvert(34303); // '571:43'
 
 function reverseNumber(n) {
-  return Math.sign(n) * Math.abs(n).toString().split('').reverse().join('');
+	return Math.sign(n) * Math.abs(n).toString().split('').reverse().join('');
 }
 
-reverseNumber(123) // 321
-reverseNumber(-123) // -321
-reverseNumber(1000) // 1
+reverseNumber(123); // 321
+reverseNumber(-123); // -321
+reverseNumber(1000); // 1
 
 class PaginationHelper {
 	constructor(collection, itemsPerPage) {
-	// The constructor takes in an array of items and a integer indicating how many
-	// items fit within a single page
+		// The constructor takes in an array of items and a integer indicating how many
+		// items fit within a single page
 		this.collection = collection;
 		this.itemsPerPage = itemsPerPage;
 	}
 	itemCount() {
-	// returns the number of items within the entire collection
-    return this.collection.length;
+		// returns the number of items within the entire collection
+		return this.collection.length;
 	}
 	pageCount() {
-	// returns the number of pages
-    return Math.ceil(this.collection.length / this.itemsPerPage);
+		// returns the number of pages
+		return Math.ceil(this.collection.length / this.itemsPerPage);
 	}
 	pageItemCount(pageIndex) {
 		// returns the number of items on the current page. page_index is zero based.
 		// this method should return -1 for pageIndex values that are out of range
-    const pageCount = this.pageCount();
-    if (pageIndex < 0 || pageIndex >= pageCount) return -1; // pageIndex out of range
+		const pageCount = this.pageCount();
+		if (pageIndex < 0 || pageIndex >= pageCount) return -1; // pageIndex out of range
 
-    const startIndex = pageIndex * this.itemsPerPage;
-    const remainingItems = this.collection.length - startIndex;
-    return Math.min(remainingItems, this.itemsPerPage);
+		const startIndex = pageIndex * this.itemsPerPage;
+		const remainingItems = this.collection.length - startIndex;
+		return Math.min(remainingItems, this.itemsPerPage);
 	}
 	pageIndex(itemIndex) {
 		// determines what page an item is on. Zero based indexes
@@ -594,73 +607,80 @@ class PaginationHelper {
 	}
 }
 
-const collection = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
-const helper = new PaginationHelper(collection, 10)
+const collection = [
+	1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
+	23, 24,
+];
+const helper = new PaginationHelper(collection, 10);
 
-console.log(helper.pageCount())
-console.log(helper.itemCount())
-console.log(helper.pageItemCount(1)) // 10
+console.log(helper.pageCount());
+console.log(helper.itemCount());
+console.log(helper.pageItemCount(1)); // 10
 
 const obj1 = {
-  site: "Codewars",
-  description: "Lorem ipsum dolor sit...",
-  obj2: {
-    str: "Yeah, Codewars!",
-    num: 123,
-    obj3: {
-      something: "Ph'nglui mglw'nafh Codewars R'lyeh wgah'nagl fhtagn. Gotha fm'latgh h'gof'nn, geb chtenff"
-    }
-  }
+	site: 'Codewars',
+	description: 'Lorem ipsum dolor sit...',
+	obj2: {
+		str: 'Yeah, Codewars!',
+		num: 123,
+		obj3: {
+			something:
+				"Ph'nglui mglw'nafh Codewars R'lyeh wgah'nagl fhtagn. Gotha fm'latgh h'gof'nn, geb chtenff",
+		},
+	},
 };
 
 const obj2 = {
-	site: "Codewars",
-	description: "Lorem ipsum dolor sit...",
+	site: 'Codewars',
+	description: 'Lorem ipsum dolor sit...',
 	obj2: {
-	str: "Yeah, Codewars!",
-	num: 123,
-	obj3: {
-			something: "Ph'nglui mglw'nafh Codewars R'lyeh wgah'nagl fhtagn. Gotha fm'latgh h'gof'nn, geb chtenff"
-		}
+		str: 'Yeah, Codewars!',
+		num: 123,
+		obj3: {
+			something:
+				"Ph'nglui mglw'nafh Codewars R'lyeh wgah'nagl fhtagn. Gotha fm'latgh h'gof'nn, geb chtenff",
+		},
 	},
-	surprise: "Ha! Codewars :)",
-	nullProperty: null
+	surprise: 'Ha! Codewars :)',
+	nullProperty: null,
 };
 
 function searchString(obj, search) {
 	let result = [];
 
-	for(let key in obj) {
+	for (let key in obj) {
 		const value = obj[key];
-		if (typeof value === 'string' && value.includes(search)) result.push(key.toString());
+		if (typeof value === 'string' && value.includes(search))
+			result.push(key.toString());
 
 		if (value && typeof value === 'object') {
-			result = result.concat(searchString(value, search).map(k => `${key}.${k}`))
+			result = result.concat(
+				searchString(value, search).map((k) => `${key}.${k}`)
+			);
 		}
 	}
 
 	return result.sort();
 }
 
-const results = searchString(obj1, "Codewars"); // results = ["obj2.obj3.something", "obj2.str", "site"]
-const results2 = searchString(obj2, "Codewars") // ["obj2.obj3.something", "obj2.str", "site", "surprise"]
-console.log('\n Result: ', results2)
+const results = searchString(obj1, 'Codewars'); // results = ["obj2.obj3.something", "obj2.str", "site"]
+const results2 = searchString(obj2, 'Codewars'); // ["obj2.obj3.something", "obj2.str", "site", "surprise"]
+console.log('\n Result: ', results2);
 
 function getWowelCount(str) {
 	return (str.match(/[aeiou]/gi) || []).length;
 }
 
-console.log('\ngetWowelCount: ', getWowelCount("abracadabra"))
-console.log('\ngetWowelCount: ', getWowelCount('pear tree'))
+console.log('\ngetWowelCount: ', getWowelCount('abracadabra'));
+console.log('\ngetWowelCount: ', getWowelCount('pear tree'));
 
 function highAndLow(paramStr) {
 	const numList = paramStr.split(' ').map(Number);
 	return `${Math.max(...numList)} ${Math.min(...numList)}`;
 }
-console.log(highAndLow("1 2 3 4 5"));  // return "5 1"
-console.log(highAndLow("1 2 -3 4 5")); // return "5 -3"
-console.log(highAndLow("1 9 3 4 -5")); // return "9 -5"
-
+console.log(highAndLow('1 2 3 4 5')); // return "5 1"
+console.log(highAndLow('1 2 -3 4 5')); // return "5 -3"
+console.log(highAndLow('1 9 3 4 -5')); // return "9 -5"
 
 function createPhoneNumber(numbers) {
 	const str = numbers.join('');
@@ -668,15 +688,121 @@ function createPhoneNumber(numbers) {
 	// return numbers.join('').replace(/(...)(...)(.*)/, '($1) $2-$3');
 }
 
-console.log(createPhoneNumber([1, 2, 3, 4, 5, 6, 7, 8, 9, 0])) // => returns "(123) 456-7890"
+console.log(createPhoneNumber([1, 2, 3, 4, 5, 6, 7, 8, 9, 0])); // => returns "(123) 456-7890"
+console.log('\n');
 
+function isValidWalk(walk) {
+	// 10min
+	if (walk.length !== 10) return false;
+	// returning to the same direction:
+	// north === south &&
+	// east steps === west
+	// const north = walk.reduce((acc, dir) => dir === 'n' ? acc+=1 : acc, 0);
+	// const south = walk.reduce((acc, dir) => dir === 's' ? acc+=1 : acc, 0);
+	// const east = walk.reduce((acc, dir) => dir === 'e' ? acc+=1 : acc, 0);
+	// const west = walk.reduce((acc, dir) => dir === 'w' ? acc+=1 : acc, 0);
+	const north = walk.filter((dir) => dir === 'n').length;
+	const south = walk.filter((dir) => dir === 's').length;
+	const east = walk.filter((dir) => dir === 'e').length;
+	const west = walk.filter((dir) => dir === 'w').length;
 
+	return north === south && east === west;
+}
 
+console.log(isValidWalk(['n', 's', 'n', 's', 'n', 's', 'n', 's', 'n', 's'])); // true
+console.log(
+	isValidWalk(['w', 'e', 'w', 'e', 'w', 'e', 'w', 'e', 'w', 'e', 'w', 'e'])
+); // false
+console.log(isValidWalk(['w'])); // false
+console.log(isValidWalk(['n', 'n', 'n', 's', 'n', 's', 'n', 's', 'n', 's'])); // false
+console.log('\n');
 
+var number = function (busStops) {
+	// Good Luck!
+	return busStops.reduce((acc, [on, off]) => {
+		return acc + on - off;
+	}, 0);
+};
 
+console.log(
+	number([
+		[10, 0],
+		[3, 5],
+		[5, 8],
+	]),
+	'\n'
+);
 
+function findOutlier(integers) {
+	const even = integers.slice(0, 3).filter((n) => n % 2 === 0);
+	const odd = integers.slice(0, 3).filter((n) => n % 2 !== 0);
 
+	return even.length > odd.length
+		? integers.find((n) => n % 2 !== 0)
+		: integers.find((n) => n % 2 === 0);
+}
+console.log('\nfindOutlier: ');
+console.log(findOutlier([0, 1, 2]), 1);
+console.log(findOutlier([1, 2, 3]), 2);
+console.log(findOutlier([2, 6, 8, 10, 3]), 3);
+console.log(findOutlier([0, 0, 3, 0, 0]), 3);
 
+function queueTime(customers, treads) {
+	if (customers.length && customers.length <= treads) return Math.max(...customers);
 
+	const tillsList = new Array(treads).fill(0);
+	customers.forEach((time) => {
+		const freeTillIdx = tillsList.indexOf(Math.min(...tillsList));
+		tillsList[freeTillIdx] += time;
+	})
 
+	return Math.max(...tillsList)
+}
 
+console.log('\nqueueTime: \n');
+console.log(queueTime([], 1), 0);
+console.log(queueTime([1, 2, 3, 4], 1), 10);
+console.log(queueTime([2, 2, 3, 3, 4, 4], 2), 9);
+console.log(queueTime([1, 2, 3, 4, 5], 100), 5);
+console.log(queueTime([5, 3, 4], 1), 12);
+console.log(queueTime([10, 2, 3, 3], 2), 10);
+console.log(queueTime([2, 3, 10, 2], 2), 12);
+
+console.log('\nsortArray: ')
+// sort the odd numbers in ascending order while leaving the even numbers at their original positions
+function sortArrayOddDraft(array) {
+  let idx = 0;
+  
+  while (idx < array.length) {
+    const value = array[idx];
+
+		if (value % 2 == 0) {
+			console.log(`Even: ++ and continue`)
+      idx++;
+      continue;
+    }
+
+		const lessIdx = array.findIndex((num, i) => {
+			return !!(num % 2) && i > idx && num < value
+		});
+		
+		if (lessIdx > 0) {
+			array[idx] = array[lessIdx];
+			array[lessIdx] = value;
+			continue;
+		}
+
+		idx++;
+  }
+
+	return array
+}
+
+function sortArrayOdd(array) {
+	const odds = array.filter(num => num%2).sort((a, b) => a - b);
+	return array.map(num => num%2 ? odds.shift() : num);
+}
+
+console.log(sortArrayOdd([5, 3, 2, 8, 1, 4]), [1, 3, 2, 8, 5, 4]);
+console.log(sortArrayOdd([5, 3, 1, 8, 0]), [1, 3, 5, 8, 0]);
+console.log(sortArrayOdd([]), []);

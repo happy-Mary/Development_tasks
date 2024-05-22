@@ -13,9 +13,10 @@ const checkIfBalanced_base = (arr) => {
     sumsLeft.push(sumLeft);
     // Build sums array from right to left
 		sumRight = sumRight + arr[lastIdx - i];
-		sumsRight.unshift(sumRight);
-	} // Last leftSum needs to be ignored to keep at least one number in right split
-
+    // why do we push at the beginning ???
+		sumsRight.unshift(sumRight); // 
+	} 
+// Last leftSum needs to be ignored to keep at least one number in right split
 	sumsLeft.pop(); // Fist rightSum needs to be ignored to keep at least one number in left split
 	sumsRight.shift(); // Check if one sum at the same index matches  => array is balanced
 
@@ -44,6 +45,7 @@ const checkIfBalanced = (arr) => {
   return leftList.some((sumLeft, i) => sumLeft === rightList[rightList.length - 1 - i]);
 }
 
+console.log('balanced B: ', checkIfBalanced_base([1, 2, 3, 3, 5, 4]), checkIfBalanced([1, 2, 3, 3, 5, 4]))
 console.log('balanced: ', checkIfBalanced_base([-2, -1, -1, 5, 3, -2]), checkIfBalanced([-2, -1, -1, 5, 3, -2]))
 console.log('balanced: ', checkIfBalanced_base([2, 2]), checkIfBalanced([2, 2]))
 console.log('balanced: ', checkIfBalanced_base([0, 2, -8, 0, -6, 0, 1, -1, -10]), checkIfBalanced([0, 2, -8, 0, -6, 0, 1, -1, -10]))

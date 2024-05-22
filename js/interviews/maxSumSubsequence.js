@@ -1,5 +1,6 @@
 //* maximum subarray algorithm (Kadane's algorithm)
-//* It is used to find the subarray (subsequence) with the maximum sum in an array of numbers.
+//* It is used to find the subarray (subsequence) 
+//* with the maximum sum in an array of numbers.
 function maxSumSubsequence(arr) {
   let maxEndingHere = arr[0];
   let maxSoFar = arr[0];
